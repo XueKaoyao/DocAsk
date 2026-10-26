@@ -41,19 +41,27 @@ async function main() {
 
   const rows = await table
     .query()
-    .select(['id', 'documentId', 'title', 'snippet', 'index'])
+    .select([
+      'id',
+      'documentId',
+      'title',
+      'filename',
+      'page',
+      'snippet',
+      'index',
+    ])
     .limit(limit)
     .toArray();
 
   for (const [i, row] of rows.entries()) {
-    const snippet = String(row.snippet ?? '')
-      .replace(/\s+/g, ' ')
-      .slice(0, 80);
+    const full = String(row.snippet ?? '');
+    const snippet = full.replace(/\s+/g, ' ').slice(0, 80);
     console.log(
-      `${i + 1}. [${row.index}] ${row.title}\n` +
+      `${i + 1}. [${row.index}] ${row.title} (${full.length} chars)\n` +
         `   id: ${row.id}\n` +
         `   documentId: ${row.documentId}\n` +
-        `   snippet: ${snippet}${String(row.snippet ?? '').length > 80 ? '…' : ''}\n`,
+        `   filename: ${row.filename ?? '(n/a)'}  page: ${row.page ?? '(n/a)'}\n` +
+        `   snippet: ${snippet}${full.length > 80 ? '…' : ''}\n`,
     );
   }
 

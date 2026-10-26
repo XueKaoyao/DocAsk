@@ -36,6 +36,13 @@ yarn-error.log*
 # vercel
 .vercel
 
+# local vector / BM25 indexes
+.lancedb/
+.bm25-corpus.json
+
+# chat transcripts (model steps / tool calls)
+/logs/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

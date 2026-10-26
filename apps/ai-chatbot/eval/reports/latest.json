@@ -1,0 +1,906 @@
+{
+  "generatedAt": "2026-09-20T06:57:14.705Z",
+  "base": "http://127.0.0.1:3000",
+  "k": 5,
+  "gold": "eval\\datasets\\rag-gold.json",
+  "reports": [
+    {
+      "mode": "vector",
+      "k": 5,
+      "summary": {
+        "positiveCount": 15,
+        "negativeCount": 3,
+        "recallAtK": 0.9333,
+        "precisionAtK": 0.22,
+        "hitAtK": 0.9333
+      },
+      "cases": [
+        {
+          "id": "pwd-01",
+          "query": "忘记登录密码怎么办？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "如何重置登录密码"
+          ],
+          "retrievedTitles": [
+            "如何重置登录密码",
+            "焦虑时的简单呼吸练习",
+            "test2",
+            "番茄肉酱意面简易做法"
+          ],
+          "recall": 1,
+          "precision": 0.25,
+          "hit": 1
+        },
+        {
+          "id": "pwd-02",
+          "query": "重置密码后新密码有什么要求？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "如何重置登录密码"
+          ],
+          "retrievedTitles": [
+            "如何重置登录密码",
+            "今日天气与出行建议",
+            "焦虑时的简单呼吸练习",
+            "番茄肉酱意面简易做法"
+          ],
+          "recall": 1,
+          "precision": 0.25,
+          "hit": 1
+        },
+        {
+          "id": "pwd-03",
+          "query": "收不到重置密码的验证邮件怎么处理？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "如何重置登录密码"
+          ],
+          "retrievedTitles": [
+            "如何重置登录密码",
+            "今日天气与出行建议",
+            "焦虑时的简单呼吸练习",
+            "test2"
+          ],
+          "recall": 1,
+          "precision": 0.25,
+          "hit": 1
+        },
+        {
+          "id": "breath-01",
+          "query": "焦虑的时候可以做什么呼吸练习？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "焦虑时的简单呼吸练习"
+          ],
+          "retrievedTitles": [
+            "如何重置登录密码",
+            "焦虑时的简单呼吸练习",
+            "今日天气与出行建议",
+            "test2"
+          ],
+          "recall": 1,
+          "precision": 0.25,
+          "hit": 1
+        },
+        {
+          "id": "breath-02",
+          "query": "睡前思绪很乱，有没有简单的放松方法？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "焦虑时的简单呼吸练习"
+          ],
+          "retrievedTitles": [
+            "今日天气与出行建议",
+            "焦虑时的简单呼吸练习",
+            "番茄肉酱意面简易做法",
+            "test2",
+            "如何重置登录密码"
+          ],
+          "recall": 1,
+          "precision": 0.2,
+          "hit": 1
+        },
+        {
+          "id": "weather-01",
+          "query": "今天出门要不要带伞？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "今日天气与出行建议"
+          ],
+          "retrievedTitles": [
+            "今日天气与出行建议",
+            "test2",
+            "焦虑时的简单呼吸练习",
+            "如何重置登录密码"
+          ],
+          "recall": 1,
+          "precision": 0.25,
+          "hit": 1
+        },
+        {
+          "id": "weather-02",
+          "query": "今天气温大概多少度？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "今日天气与出行建议"
+          ],
+          "retrievedTitles": [
+            "今日天气与出行建议",
+            "番茄肉酱意面简易做法",
+            "焦虑时的简单呼吸练习",
+            "test2",
+            "如何重置登录密码"
+          ],
+          "recall": 1,
+          "precision": 0.2,
+          "hit": 1
+        },
+        {
+          "id": "weather-03",
+          "query": "适合什么时候做户外运动？路面开车要注意什么？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "今日天气与出行建议"
+          ],
+          "retrievedTitles": [
+            "今日天气与出行建议",
+            "如何重置登录密码",
+            "番茄肉酱意面简易做法",
+            "焦虑时的简单呼吸练习"
+          ],
+          "recall": 1,
+          "precision": 0.25,
+          "hit": 1
+        },
+        {
+          "id": "pasta-01",
+          "query": "番茄肉酱意面需要哪些食材？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "番茄肉酱意面简易做法"
+          ],
+          "retrievedTitles": [
+            "番茄肉酱意面简易做法",
+            "今日天气与出行建议",
+            "如何重置登录密码",
+            "test2",
+            "焦虑时的简单呼吸练习"
+          ],
+          "recall": 1,
+          "precision": 0.2,
+          "hit": 1
+        },
+        {
+          "id": "pasta-02",
+          "query": "番茄肉酱意面大概多久能做完？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "番茄肉酱意面简易做法"
+          ],
+          "retrievedTitles": [
+            "今日天气与出行建议",
+            "番茄肉酱意面简易做法",
+            "焦虑时的简单呼吸练习",
+            "如何重置登录密码",
+            "test2"
+          ],
+          "recall": 1,
+          "precision": 0.2,
+          "hit": 1
+        },
+        {
+          "id": "pasta-03",
+          "query": "怎么炒番茄肉酱再拌面？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "番茄肉酱意面简易做法"
+          ],
+          "retrievedTitles": [
+            "番茄肉酱意面简易做法",
+            "今日天气与出行建议",
+            "如何重置登录密码",
+            "焦虑时的简单呼吸练习"
+          ],
+          "recall": 1,
+          "precision": 0.25,
+          "hit": 1
+        },
+        {
+          "id": "next-01",
+          "query": "Next.js 接口返回 500 应该先看什么？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "Next.js 接口报错排查步骤"
+          ],
+          "retrievedTitles": [
+            "如何重置登录密码",
+            "test2",
+            "番茄肉酱意面简易做法"
+          ],
+          "recall": 0,
+          "precision": 0,
+          "hit": 0
+        },
+        {
+          "id": "next-02",
+          "query": "页面出现 fetch failed 怎么排查？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "Next.js 接口报错排查步骤"
+          ],
+          "retrievedTitles": [
+            "Next.js 接口报错排查步骤",
+            "今日天气与出行建议",
+            "test2",
+            "如何重置登录密码"
+          ],
+          "recall": 1,
+          "precision": 0.25,
+          "hit": 1
+        },
+        {
+          "id": "para-01",
+          "query": "老是记不住账号密码，系统能不能帮我改一个新的？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "如何重置登录密码"
+          ],
+          "retrievedTitles": [
+            "如何重置登录密码",
+            "今日天气与出行建议",
+            "焦虑时的简单呼吸练习",
+            "test2"
+          ],
+          "recall": 1,
+          "precision": 0.25,
+          "hit": 1
+        },
+        {
+          "id": "para-02",
+          "query": "紧张得睡不着，有没有按数呼吸的方法？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "焦虑时的简单呼吸练习"
+          ],
+          "retrievedTitles": [
+            "今日天气与出行建议",
+            "如何重置登录密码",
+            "焦虑时的简单呼吸练习",
+            "test2"
+          ],
+          "recall": 1,
+          "precision": 0.25,
+          "hit": 1
+        },
+        {
+          "id": "neg-01",
+          "query": "公司今年的营收财报是多少？",
+          "expectInKb": false,
+          "relevantTitles": [],
+          "retrievedTitles": [
+            "今日天气与出行建议",
+            "test2"
+          ],
+          "recall": null,
+          "precision": null,
+          "hit": null
+        },
+        {
+          "id": "neg-02",
+          "query": "帮我订明天去上海的高铁票",
+          "expectInKb": false,
+          "relevantTitles": [],
+          "retrievedTitles": [
+            "今日天气与出行建议",
+            "焦虑时的简单呼吸练习",
+            "test2",
+            "番茄肉酱意面简易做法"
+          ],
+          "recall": null,
+          "precision": null,
+          "hit": null
+        },
+        {
+          "id": "neg-03",
+          "query": "量子纠缠在通信加密里怎么落地？",
+          "expectInKb": false,
+          "relevantTitles": [],
+          "retrievedTitles": [
+            "焦虑时的简单呼吸练习",
+            "今日天气与出行建议",
+            "如何重置登录密码",
+            "番茄肉酱意面简易做法"
+          ],
+          "recall": null,
+          "precision": null,
+          "hit": null
+        }
+      ]
+    },
+    {
+      "mode": "bm25",
+      "k": 5,
+      "summary": {
+        "positiveCount": 15,
+        "negativeCount": 3,
+        "recallAtK": 1,
+        "precisionAtK": 0.4556,
+        "hitAtK": 1
+      },
+      "cases": [
+        {
+          "id": "pwd-01",
+          "query": "忘记登录密码怎么办？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "如何重置登录密码"
+          ],
+          "retrievedTitles": [
+            "如何重置登录密码"
+          ],
+          "recall": 1,
+          "precision": 1,
+          "hit": 1
+        },
+        {
+          "id": "pwd-02",
+          "query": "重置密码后新密码有什么要求？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "如何重置登录密码"
+          ],
+          "retrievedTitles": [
+            "如何重置登录密码",
+            "test2"
+          ],
+          "recall": 1,
+          "precision": 0.5,
+          "hit": 1
+        },
+        {
+          "id": "pwd-03",
+          "query": "收不到重置密码的验证邮件怎么处理？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "如何重置登录密码"
+          ],
+          "retrievedTitles": [
+            "如何重置登录密码",
+            "Next.js 接口报错排查步骤",
+            "test2"
+          ],
+          "recall": 1,
+          "precision": 0.3333333333333333,
+          "hit": 1
+        },
+        {
+          "id": "breath-01",
+          "query": "焦虑的时候可以做什么呼吸练习？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "焦虑时的简单呼吸练习"
+          ],
+          "retrievedTitles": [
+            "焦虑时的简单呼吸练习",
+            "如何重置登录密码",
+            "test2"
+          ],
+          "recall": 1,
+          "precision": 0.3333333333333333,
+          "hit": 1
+        },
+        {
+          "id": "breath-02",
+          "query": "睡前思绪很乱，有没有简单的放松方法？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "焦虑时的简单呼吸练习"
+          ],
+          "retrievedTitles": [
+            "焦虑时的简单呼吸练习",
+            "今日天气与出行建议",
+            "test2"
+          ],
+          "recall": 1,
+          "precision": 0.3333333333333333,
+          "hit": 1
+        },
+        {
+          "id": "weather-01",
+          "query": "今天出门要不要带伞？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "今日天气与出行建议"
+          ],
+          "retrievedTitles": [
+            "今日天气与出行建议",
+            "test2"
+          ],
+          "recall": 1,
+          "precision": 0.5,
+          "hit": 1
+        },
+        {
+          "id": "weather-02",
+          "query": "今天气温大概多少度？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "今日天气与出行建议"
+          ],
+          "retrievedTitles": [
+            "今日天气与出行建议",
+            "test2"
+          ],
+          "recall": 1,
+          "precision": 0.5,
+          "hit": 1
+        },
+        {
+          "id": "weather-03",
+          "query": "适合什么时候做户外运动？路面开车要注意什么？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "今日天气与出行建议"
+          ],
+          "retrievedTitles": [
+            "今日天气与出行建议",
+            "番茄肉酱意面简易做法"
+          ],
+          "recall": 1,
+          "precision": 0.5,
+          "hit": 1
+        },
+        {
+          "id": "pasta-01",
+          "query": "番茄肉酱意面需要哪些食材？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "番茄肉酱意面简易做法"
+          ],
+          "retrievedTitles": [
+            "番茄肉酱意面简易做法",
+            "Next.js 接口报错排查步骤"
+          ],
+          "recall": 1,
+          "precision": 0.5,
+          "hit": 1
+        },
+        {
+          "id": "pasta-02",
+          "query": "番茄肉酱意面大概多久能做完？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "番茄肉酱意面简易做法"
+          ],
+          "retrievedTitles": [
+            "番茄肉酱意面简易做法",
+            "Next.js 接口报错排查步骤"
+          ],
+          "recall": 1,
+          "precision": 0.5,
+          "hit": 1
+        },
+        {
+          "id": "pasta-03",
+          "query": "怎么炒番茄肉酱再拌面？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "番茄肉酱意面简易做法"
+          ],
+          "retrievedTitles": [
+            "番茄肉酱意面简易做法",
+            "Next.js 接口报错排查步骤",
+            "test2"
+          ],
+          "recall": 1,
+          "precision": 0.3333333333333333,
+          "hit": 1
+        },
+        {
+          "id": "next-01",
+          "query": "Next.js 接口返回 500 应该先看什么？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "Next.js 接口报错排查步骤"
+          ],
+          "retrievedTitles": [
+            "Next.js 接口报错排查步骤",
+            "test2"
+          ],
+          "recall": 1,
+          "precision": 0.5,
+          "hit": 1
+        },
+        {
+          "id": "next-02",
+          "query": "页面出现 fetch failed 怎么排查？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "Next.js 接口报错排查步骤"
+          ],
+          "retrievedTitles": [
+            "Next.js 接口报错排查步骤",
+            "番茄肉酱意面简易做法",
+            "test2"
+          ],
+          "recall": 1,
+          "precision": 0.3333333333333333,
+          "hit": 1
+        },
+        {
+          "id": "para-01",
+          "query": "老是记不住账号密码，系统能不能帮我改一个新的？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "如何重置登录密码"
+          ],
+          "retrievedTitles": [
+            "如何重置登录密码",
+            "Next.js 接口报错排查步骤",
+            "test2"
+          ],
+          "recall": 1,
+          "precision": 0.3333333333333333,
+          "hit": 1
+        },
+        {
+          "id": "para-02",
+          "query": "紧张得睡不着，有没有按数呼吸的方法？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "焦虑时的简单呼吸练习"
+          ],
+          "retrievedTitles": [
+            "焦虑时的简单呼吸练习",
+            "今日天气与出行建议",
+            "test2"
+          ],
+          "recall": 1,
+          "precision": 0.3333333333333333,
+          "hit": 1
+        },
+        {
+          "id": "neg-01",
+          "query": "公司今年的营收财报是多少？",
+          "expectInKb": false,
+          "relevantTitles": [],
+          "retrievedTitles": [
+            "如何重置登录密码",
+            "Next.js 接口报错排查步骤",
+            "test2"
+          ],
+          "recall": null,
+          "precision": null,
+          "hit": null
+        },
+        {
+          "id": "neg-02",
+          "query": "帮我订明天去上海的高铁票",
+          "expectInKb": false,
+          "relevantTitles": [],
+          "retrievedTitles": [
+            "test2"
+          ],
+          "recall": null,
+          "precision": null,
+          "hit": null
+        },
+        {
+          "id": "neg-03",
+          "query": "量子纠缠在通信加密里怎么落地？",
+          "expectInKb": false,
+          "relevantTitles": [],
+          "retrievedTitles": [
+            "test2"
+          ],
+          "recall": null,
+          "precision": null,
+          "hit": null
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "k": 5,
+      "summary": {
+        "positiveCount": 15,
+        "negativeCount": 3,
+        "recallAtK": 0.9333,
+        "precisionAtK": 0.26,
+        "hitAtK": 0.9333
+      },
+      "cases": [
+        {
+          "id": "pwd-01",
+          "query": "忘记登录密码怎么办？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "如何重置登录密码"
+          ],
+          "retrievedTitles": [
+            "如何重置登录密码",
+            "焦虑时的简单呼吸练习",
+            "test2",
+            "番茄肉酱意面简易做法"
+          ],
+          "recall": 1,
+          "precision": 0.25,
+          "hit": 1
+        },
+        {
+          "id": "pwd-02",
+          "query": "重置密码后新密码有什么要求？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "如何重置登录密码"
+          ],
+          "retrievedTitles": [
+            "如何重置登录密码",
+            "test2",
+            "今日天气与出行建议",
+            "焦虑时的简单呼吸练习"
+          ],
+          "recall": 1,
+          "precision": 0.25,
+          "hit": 1
+        },
+        {
+          "id": "pwd-03",
+          "query": "收不到重置密码的验证邮件怎么处理？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "如何重置登录密码"
+          ],
+          "retrievedTitles": [
+            "如何重置登录密码",
+            "Next.js 接口报错排查步骤",
+            "今日天气与出行建议",
+            "test2"
+          ],
+          "recall": 1,
+          "precision": 0.25,
+          "hit": 1
+        },
+        {
+          "id": "breath-01",
+          "query": "焦虑的时候可以做什么呼吸练习？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "焦虑时的简单呼吸练习"
+          ],
+          "retrievedTitles": [
+            "如何重置登录密码",
+            "焦虑时的简单呼吸练习",
+            "test2"
+          ],
+          "recall": 1,
+          "precision": 0.3333333333333333,
+          "hit": 1
+        },
+        {
+          "id": "breath-02",
+          "query": "睡前思绪很乱，有没有简单的放松方法？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "焦虑时的简单呼吸练习"
+          ],
+          "retrievedTitles": [
+            "焦虑时的简单呼吸练习",
+            "今日天气与出行建议",
+            "test2",
+            "番茄肉酱意面简易做法"
+          ],
+          "recall": 1,
+          "precision": 0.25,
+          "hit": 1
+        },
+        {
+          "id": "weather-01",
+          "query": "今天出门要不要带伞？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "今日天气与出行建议"
+          ],
+          "retrievedTitles": [
+            "今日天气与出行建议",
+            "test2",
+            "焦虑时的简单呼吸练习"
+          ],
+          "recall": 1,
+          "precision": 0.3333333333333333,
+          "hit": 1
+        },
+        {
+          "id": "weather-02",
+          "query": "今天气温大概多少度？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "今日天气与出行建议"
+          ],
+          "retrievedTitles": [
+            "今日天气与出行建议",
+            "test2"
+          ],
+          "recall": 1,
+          "precision": 0.5,
+          "hit": 1
+        },
+        {
+          "id": "weather-03",
+          "query": "适合什么时候做户外运动？路面开车要注意什么？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "今日天气与出行建议"
+          ],
+          "retrievedTitles": [
+            "今日天气与出行建议",
+            "番茄肉酱意面简易做法",
+            "如何重置登录密码",
+            "焦虑时的简单呼吸练习"
+          ],
+          "recall": 1,
+          "precision": 0.25,
+          "hit": 1
+        },
+        {
+          "id": "pasta-01",
+          "query": "番茄肉酱意面需要哪些食材？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "番茄肉酱意面简易做法"
+          ],
+          "retrievedTitles": [
+            "番茄肉酱意面简易做法",
+            "Next.js 接口报错排查步骤",
+            "今日天气与出行建议",
+            "如何重置登录密码",
+            "test2"
+          ],
+          "recall": 1,
+          "precision": 0.2,
+          "hit": 1
+        },
+        {
+          "id": "pasta-02",
+          "query": "番茄肉酱意面大概多久能做完？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "番茄肉酱意面简易做法"
+          ],
+          "retrievedTitles": [
+            "番茄肉酱意面简易做法",
+            "今日天气与出行建议",
+            "Next.js 接口报错排查步骤",
+            "焦虑时的简单呼吸练习",
+            "如何重置登录密码"
+          ],
+          "recall": 1,
+          "precision": 0.2,
+          "hit": 1
+        },
+        {
+          "id": "pasta-03",
+          "query": "怎么炒番茄肉酱再拌面？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "番茄肉酱意面简易做法"
+          ],
+          "retrievedTitles": [
+            "番茄肉酱意面简易做法",
+            "test2",
+            "焦虑时的简单呼吸练习"
+          ],
+          "recall": 1,
+          "precision": 0.3333333333333333,
+          "hit": 1
+        },
+        {
+          "id": "next-01",
+          "query": "Next.js 接口返回 500 应该先看什么？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "Next.js 接口报错排查步骤"
+          ],
+          "retrievedTitles": [
+            "test2"
+          ],
+          "recall": 0,
+          "precision": 0,
+          "hit": 0
+        },
+        {
+          "id": "next-02",
+          "query": "页面出现 fetch failed 怎么排查？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "Next.js 接口报错排查步骤"
+          ],
+          "retrievedTitles": [
+            "Next.js 接口报错排查步骤",
+            "test2",
+            "番茄肉酱意面简易做法",
+            "如何重置登录密码"
+          ],
+          "recall": 1,
+          "precision": 0.25,
+          "hit": 1
+        },
+        {
+          "id": "para-01",
+          "query": "老是记不住账号密码，系统能不能帮我改一个新的？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "如何重置登录密码"
+          ],
+          "retrievedTitles": [
+            "如何重置登录密码",
+            "Next.js 接口报错排查步骤",
+            "今日天气与出行建议",
+            "test2"
+          ],
+          "recall": 1,
+          "precision": 0.25,
+          "hit": 1
+        },
+        {
+          "id": "para-02",
+          "query": "紧张得睡不着，有没有按数呼吸的方法？",
+          "expectInKb": true,
+          "relevantTitles": [
+            "焦虑时的简单呼吸练习"
+          ],
+          "retrievedTitles": [
+            "今日天气与出行建议",
+            "焦虑时的简单呼吸练习",
+            "如何重置登录密码",
+            "test2"
+          ],
+          "recall": 1,
+          "precision": 0.25,
+          "hit": 1
+        },
+        {
+          "id": "neg-01",
+          "query": "公司今年的营收财报是多少？",
+          "expectInKb": false,
+          "relevantTitles": [],
+          "retrievedTitles": [
+            "test2",
+            "如何重置登录密码"
+          ],
+          "recall": null,
+          "precision": null,
+          "hit": null
+        },
+        {
+          "id": "neg-02",
+          "query": "帮我订明天去上海的高铁票",
+          "expectInKb": false,
+          "relevantTitles": [],
+          "retrievedTitles": [
+            "test2",
+            "今日天气与出行建议"
+          ],
+          "recall": null,
+          "precision": null,
+          "hit": null
+        },
+        {
+          "id": "neg-03",
+          "query": "量子纠缠在通信加密里怎么落地？",
+          "expectInKb": false,
+          "relevantTitles": [],
+          "retrievedTitles": [
+            "test2",
+            "焦虑时的简单呼吸练习",
+            "今日天气与出行建议"
+          ],
+          "recall": null,
+          "precision": null,
+          "hit": null
+        }
+      ]
+    }
+  ]
+}

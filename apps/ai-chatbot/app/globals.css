@@ -118,6 +118,52 @@ body {
   opacity: 0.75;
 }
 
+/* ========== Retrieval document Select ========== */
+.retrieval-doc-select .ant-select-selector {
+  background-color: var(--color-third) !important;
+  border-color: var(--color-third) !important;
+  color: var(--color-font) !important;
+}
+
+.retrieval-doc-select-popup.ant-select-dropdown {
+  background-color: var(--color-third) !important;
+}
+
+.retrieval-doc-select-popup .ant-select-item {
+  color: var(--color-font);
+  background-color: transparent;
+}
+
+/* ant-select-item-option-active 在鼠标移出后仍会保留，不能当 hover 用 */
+.retrieval-doc-select-popup
+  .ant-select-item-option-active:not(.ant-select-item-option-selected):not(
+    .ant-select-item-option-disabled
+  ) {
+  background-color: transparent !important;
+}
+
+.retrieval-doc-select-popup
+  .ant-select-item-option:hover:not(.ant-select-item-option-disabled) {
+  background-color: var(--color-secondary) !important;
+  color: var(--color-font) !important;
+}
+
+.retrieval-doc-select-popup
+  .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  background-color: var(--color-secondary) !important;
+  color: var(--color-font) !important;
+  font-weight: 600;
+}
+
+/* ========== Documents Table ========== */
+.docs-table .ant-table-cell {
+  color: var(--color-font) !important;
+}
+.docs-table .ant-table-cell:hover {
+  background-color: var(--color-fontbg) !important;
+  color: var(--color-font) !important;
+}
+
 /* ========== Retrieval suggested tags ========== */
 .retrieval-suggest-tag.ant-tag {
   transition:

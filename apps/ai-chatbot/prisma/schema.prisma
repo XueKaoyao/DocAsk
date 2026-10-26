@@ -13,9 +13,12 @@ datasource db {
 model Document {
   id        String   @id @default(uuid())
   title     String
+  /// 原始文件名或来源标识（检索过滤 / 引用展示）；无文件时可用 title
+  filename  String
   content   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  deletedAt DateTime?
   // chunks    Chunk[]
 }
 

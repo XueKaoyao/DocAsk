@@ -1,0 +1,36 @@
+# 减小构建上下文；密钥与本地数据不要打进镜像
+node_modules
+**/node_modules
+**/.next
+.git
+.husky
+**/coverage
+**/logs
+**/.lancedb
+**/.bm25-corpus.json
+**/.turbo
+**/.cache
+**/*.md
+!README.md
+
+# 环境变量与密钥
+.env
+.env.*
+**/.env
+**/.env.*
+!**/.env.example
+
+# IDE / OS
+.vscode
+.idea
+**/.DS_Store
+**/Thumbs.db
+
+# 测试与评测产物（构建不需要）
+**/__tests__
+**/__mocks__
+**/eval/reports
+agent-transcripts
+
+# 文档库原文可按需进镜像；默认排除大文件以加快 build（seed 可挂载或构建后导入）
+# apps/ai-chatbot/app/docs/*.pdf

@@ -24,7 +24,7 @@ const config = {
 
   // Transform workspace packages (symlinked in node_modules) and Ant Design
   transformIgnorePatterns: [
-    'node_modules/(?!@myworkspace/|@ant-design/|antd/|ai/|@ai-sdk/|zod/)',
+    'node_modules/(?!@myworkspace/|@ant-design/|antd/|ai/|@ai-sdk/|zod/|wink-bm25-text-search/|wink-helpers/|wink-nlp/|wink-nlp-utils/|wink-eng-lite-web-model/)',
   ],
 
   // Path and asset mapping — order matters (more specific first)
@@ -45,6 +45,7 @@ const config = {
   testMatch: [
     '<rootDir>/app/**/__tests__/**/*.test.{ts,tsx}',
     '<rootDir>/app/**/*.test.{ts,tsx}',
+    '<rootDir>/eval/**/__tests__/**/*.test.{ts,tsx}',
   ],
 
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],

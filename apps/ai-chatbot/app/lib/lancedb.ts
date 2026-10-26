@@ -23,6 +23,13 @@ export type LanceChunkRow = {
   id: string;
   documentId: string;
   title: string;
+  /** 来源文件名（与 Document.filename 对齐） */
+  filename: string;
+  /**
+   * PDF 页码（1-based）。
+   * 0 表示非分页来源或尚未按页索引（占位，后续按页切块后写入真实页码）。
+   */
+  page: number;
   snippet: string;
   index: number;
 };
@@ -67,15 +74,31 @@ class LocalMiniLMEmbeddingFunction extends EmbeddingFunction {
     return new Float32();
   }
 
-  async computeSourceEmbeddings(data: string[]): Promise<number[][]> {
+  async computeSourceEmbeddings(
+    data: string[],
+    batchSize = 8,
+  ): Promise<number[][]> {
+    // const extractor = await getExtractor();
+    // const out: number[][] = [];
+    // for (const text of data) {
+    //   const output = await extractor(text, {
+    //     pooling: 'mean',
+    //     normalize: true,
+    //   });
+    //   out.push(Array.from(output.data as Float32Array));
+    // }
+
+    if (data.length === 0) return [];
     const extractor = await getExtractor();
     const out: number[][] = [];
-    for (const text of data) {
-      const output = await extractor(text, {
+    for (let i = 0; i < data.length; i += batchSize) {
+      const slice = data.slice(i, i + batchSize);
+      const tensor = await extractor(slice, {
         pooling: 'mean',
         normalize: true,
       });
-      out.push(Array.from(output.data as Float32Array));
+      // tensor.dims === [slice.length, 384]
+      out.push(...tensor.tolist());
     }
     return out;
   }
@@ -105,6 +128,8 @@ async function getChunksSchema() {
         id: new Utf8(),
         documentId: new Utf8(),
         title: new Utf8(),
+        filename: new Utf8(),
+        page: new Int32(),
         snippet: func.sourceField(new Utf8()),
         index: new Int32(),
         vector: func.vectorField(),
@@ -122,9 +147,16 @@ async function tableHasEmbeddingFunctions(table: Table): Promise<boolean> {
   return Boolean(schema.metadata?.get('embedding_functions'));
 }
 
+/** 旧表缺少 filename/page 时需重建，否则 add 会因 schema 不一致失败 */
+async function tableHasChunkMetadata(table: Table): Promise<boolean> {
+  const schema = await table.schema();
+  const fieldNames = new Set(schema.fields.map((f) => f.name));
+  return fieldNames.has('filename') && fieldNames.has('page');
+}
+
 /**
  * 打开已有 chunks 表。
- * 旧表（手动写入 vector、无 Embedding Function 元数据）会被丢弃，避免检索/写入失败。
+ * 旧表（无 Embedding Function，或缺少 filename/page）会被丢弃，避免检索/写入失败。
  */
 export async function openChunkTable(): Promise<Table | null> {
   const db = await getDb();
@@ -134,7 +166,10 @@ export async function openChunkTable(): Promise<Table | null> {
   }
 
   const table = await db.openTable(CHUNKS_TABLE);
-  if (!(await tableHasEmbeddingFunctions(table))) {
+  if (
+    !(await tableHasEmbeddingFunctions(table)) ||
+    !(await tableHasChunkMetadata(table))
+  ) {
     await db.dropTable(CHUNKS_TABLE);
     return null;
   }
