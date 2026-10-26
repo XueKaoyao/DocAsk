@@ -35,12 +35,11 @@ function Header({ onImport, onExport }: HeaderProps) {
         document: { id: string; title: string };
         numpages: number;
         chars: number;
-      }>('/api/pdf', {
+      }>('/api/file', {
         method: 'POST',
         data: form,
         cacheConfig: { ttl: 0 },
       });
-      console.log(result);
       message.success(
         `「${result.document.title}」已入库：${result.numpages} 页 / ${result.chars} 字`,
       );
@@ -83,7 +82,7 @@ function Header({ onImport, onExport }: HeaderProps) {
         知识库检索
       </Button>
       <Upload
-        accept="application/pdf,.pdf"
+        accept="application/pdf,.pdf,.docx,.doc,.txt,.md,.csv"
         showUploadList={false}
         disabled={pdfUploading}
         beforeUpload={(file) => {

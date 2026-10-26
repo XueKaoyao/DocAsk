@@ -45,6 +45,12 @@ const nextConfig: NextConfig = {
   //  生产构建优化
   // =====================================================================
 
+  /**
+   * 输出独立可运行目录（.next/standalone），供 Docker 瘦镜像使用。
+   * 包含最小 node_modules 与 server.js，无需在 runner 阶段再 pnpm install。
+   */
+  output: 'standalone',
+
   experimental: {
     /**
      * 包导入优化（Tree Shaking）。

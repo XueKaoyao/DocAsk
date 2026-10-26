@@ -310,6 +310,7 @@ export default function DocumentsPage() {
           onChange: setSelectedRowKeys,
         }}
         locale={{ emptyText: '暂无文档，可新建或通过 Header 上传 PDF' }}
+        className="docs-table"
         styles={{
           header: {
             cell: {
@@ -319,6 +320,10 @@ export default function DocumentsPage() {
           },
           body: {
             cell: {
+              backgroundColor: 'var(--color-primary)',
+              color: 'var(--color-font)',
+            },
+            wrapper: {
               backgroundColor: 'var(--color-primary)',
               color: 'var(--color-font)',
             },
@@ -390,16 +395,56 @@ export default function DocumentsPage() {
         {viewing && (
           <div className="flex flex-col gap-3 text-[var(--color-font)]">
             <div>
-              <Typography.Text type="secondary">文件名</Typography.Text>
+              <Typography.Text
+                type="secondary"
+                styles={{
+                  root: {
+                    color: 'var(--color-font)',
+                    fontSize: '16px',
+                    fontWeight: 'bold',
+                  },
+                }}
+              >
+                文件名
+              </Typography.Text>
               <div>{viewing.filename}</div>
             </div>
             <div>
-              <Typography.Text type="secondary">更新时间</Typography.Text>
+              <Typography.Text
+                type="secondary"
+                styles={{
+                  root: {
+                    color: 'var(--color-font)',
+                    fontSize: '16px',
+                    fontWeight: 'bold',
+                  },
+                }}
+              >
+                更新时间
+              </Typography.Text>
               <div>{formatTime(viewing.updatedAt)}</div>
             </div>
             <div>
-              <Typography.Text type="secondary">正文</Typography.Text>
-              <Typography.Paragraph className="!mt-2 whitespace-pre-wrap">
+              <Typography.Text
+                type="secondary"
+                styles={{
+                  root: {
+                    color: 'var(--color-font)',
+                    fontSize: '16px',
+                    fontWeight: 'bold',
+                  },
+                }}
+              >
+                正文
+              </Typography.Text>
+              <Typography.Paragraph
+                className="!mt-2 whitespace-pre-wrap"
+                styles={{
+                  root: {
+                    color: 'var(--color-font)',
+                  },
+                }}
+              >
                 {viewing.content}
               </Typography.Paragraph>
             </div>

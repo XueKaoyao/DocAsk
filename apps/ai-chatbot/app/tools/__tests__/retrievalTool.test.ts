@@ -1,5 +1,5 @@
 // cd apps/ai-chatbot
-// pnpm exec jest --config jest.config.ts --testPathPatterns=retrievalTool
+// pnpm exec jest --config jest.config.cjs --testPathPatterns=retrievalTool
 
 const mockSearchSnippets = jest.fn();
 
@@ -24,8 +24,13 @@ jest.mock('zod', () => {
   };
 });
 
-import { getInformation, retrievalTools } from '../retrievalTool';
+import {
+  createRetrievalTools,
+  getInformation,
+  retrievalTools,
+} from '../retrievalTool';
 import type { SearchHit } from '@/app/lib/chunks';
+import type { RetrievalStreamEvent } from '@/app/types/RetrievalType';
 
 function hit(
   overrides: Partial<SearchHit> & Pick<SearchHit, 'title' | 'snippet'>,
@@ -56,8 +61,6 @@ type ExecuteFn = (
   }>;
 }>;
 
-const execute = getInformation.execute as ExecuteFn;
-
 describe('retrievalTool', () => {
   beforeEach(() => {
     mockSearchSnippets.mockReset();
@@ -74,6 +77,7 @@ describe('retrievalTool', () => {
       timings: { openTableMs: 0, searchMs: 0, mapMs: 0 },
     });
 
+    const execute = getInformation.execute as ExecuteFn;
     await execute(
       { question: '什么是向量检索' },
       { toolCallId: 'call-1', messages: [] },
@@ -120,6 +124,7 @@ describe('retrievalTool', () => {
       timings: { openTableMs: 1, searchMs: 2, mapMs: 0.1 },
     });
 
+    const execute = getInformation.execute as ExecuteFn;
     const result = await execute(
       { question: 'RAG' },
       { toolCallId: 'call-2', messages: [] },
@@ -160,6 +165,7 @@ describe('retrievalTool', () => {
       timings: { openTableMs: 0, searchMs: 0, mapMs: 0 },
     });
 
+    const execute = getInformation.execute as ExecuteFn;
     const result = await execute(
       { question: '不存在的主题' },
       { toolCallId: 'call-3', messages: [] },
@@ -175,8 +181,81 @@ describe('retrievalTool', () => {
   it('propagates searchSnippets errors', async () => {
     mockSearchSnippets.mockRejectedValueOnce(new Error('LanceDB unavailable'));
 
+    const execute = getInformation.execute as ExecuteFn;
     await expect(
       execute({ question: '任意问题' }, { toolCallId: 'call-4', messages: [] }),
     ).rejects.toThrow('LanceDB unavailable');
+  });
+
+  it('emits start → hit* → done for createRetrievalTools', async () => {
+    const events: RetrievalStreamEvent[] = [];
+    const tools = createRetrievalTools((e) => {
+      events.push(e);
+    });
+    const execute = tools.getInformation.execute as ExecuteFn;
+
+    mockSearchSnippets.mockResolvedValueOnce({
+      hits: [
+        hit({
+          title: 'A',
+          filename: 'a.md',
+          snippet: 'sa',
+          score: 0.9,
+        }),
+        hit({
+          title: 'B',
+          filename: 'b.md',
+          snippet: 'sb',
+          score: 0.8,
+          index: 1,
+        }),
+      ],
+      timings: { openTableMs: 0, searchMs: 0, mapMs: 0 },
+    });
+
+    await execute(
+      { question: '测试问题' },
+      { toolCallId: 'call-emit', messages: [] },
+    );
+
+    expect(events.map((e) => e.type)).toEqual(['start', 'hit', 'hit', 'done']);
+    expect(events[0]).toMatchObject({
+      type: 'start',
+      toolCallId: 'call-emit',
+      question: '测试问题',
+    });
+    expect(events[1]).toMatchObject({
+      type: 'hit',
+      toolCallId: 'call-emit',
+      index: 0,
+      hit: { title: 'A', snippet: 'sa' },
+    });
+    expect(events[3]).toMatchObject({
+      type: 'done',
+      toolCallId: 'call-emit',
+      count: 2,
+      titles: ['A', 'B'],
+    });
+  });
+
+  it('emits error then rethrows when search fails', async () => {
+    const events: RetrievalStreamEvent[] = [];
+    const tools = createRetrievalTools((e) => {
+      events.push(e);
+    });
+    const execute = tools.getInformation.execute as ExecuteFn;
+
+    mockSearchSnippets.mockRejectedValueOnce(new Error('down'));
+
+    await expect(
+      execute({ question: 'x' }, { toolCallId: 'call-err', messages: [] }),
+    ).rejects.toThrow('down');
+
+    expect(events.map((e) => e.type)).toEqual(['start', 'error']);
+    expect(events[1]).toMatchObject({
+      type: 'error',
+      toolCallId: 'call-err',
+      message: 'down',
+    });
   });
 });

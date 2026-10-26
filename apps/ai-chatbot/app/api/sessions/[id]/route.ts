@@ -74,17 +74,37 @@ export async function POST(
     return NextResponse.json({ message: 'Session not found' }, { status: 404 });
   }
 
-  const created = await prisma.message.createManyAndReturn({
-    data: inputs.map((item) => ({
-      id: item.id,
-      parts: item.parts as object[],
-      role: item.role,
-      sessionId,
-    })),
-  });
+  // upsert：onFinish / regenerate 可能重复提交同一 message.id（否则 P2002 → 前端误报「服务器繁忙」）
+  const saved = await prisma.$transaction(
+    inputs.map((item) =>
+      prisma.message.upsert({
+        where: { id: item.id },
+        create: {
+          id: item.id,
+          parts: item.parts as object[],
+          role: item.role,
+          sessionId,
+        },
+        update: {
+          parts: item.parts as object[],
+          role: item.role,
+        },
+      }),
+    ),
+  );
 
-  // 单条保持原返回形态；批量返回数组
-  return NextResponse.json(created.length === 1 ? created[0] : created);
+  // —— 原逻辑（仅 create，重复 id 会 UniqueConstraintViolation）：保留对照 ——
+  // const created = await prisma.message.createManyAndReturn({
+  //   data: inputs.map((item) => ({
+  //     id: item.id,
+  //     parts: item.parts as object[],
+  //     role: item.role,
+  //     sessionId,
+  //   })),
+  // });
+  // return NextResponse.json(created.length === 1 ? created[0] : created);
+
+  return NextResponse.json(saved.length === 1 ? saved[0] : saved);
 }
 
 /** PUT /api/sessions/[id] — 更新指定会话的消息 */

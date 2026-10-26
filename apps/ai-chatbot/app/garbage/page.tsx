@@ -241,7 +241,7 @@ export default function GarbagePage() {
           onChange: setSelectedRowKeys,
         }}
         locale={{ emptyText: '回收站为空' }}
-        className="garbage-docs-table"
+        className="docs-table"
         styles={{
           header: {
             cell: {
@@ -287,16 +287,56 @@ export default function GarbagePage() {
         {viewing && (
           <div className="flex flex-col gap-3 text-[var(--color-font)]">
             <div>
-              <Typography.Text type="secondary">文件名</Typography.Text>
+              <Typography.Text
+                type="secondary"
+                styles={{
+                  root: {
+                    color: 'var(--color-font)',
+                    fontSize: '16px',
+                    fontWeight: 'bold',
+                  },
+                }}
+              >
+                文件名
+              </Typography.Text>
               <div>{viewing.filename}</div>
             </div>
             <div>
-              <Typography.Text type="secondary">删除时间</Typography.Text>
+              <Typography.Text
+                type="secondary"
+                styles={{
+                  root: {
+                    color: 'var(--color-font)',
+                    fontSize: '16px',
+                    fontWeight: 'bold',
+                  },
+                }}
+              >
+                删除时间
+              </Typography.Text>
               <div>{formatTime(viewing.deletedAt)}</div>
             </div>
             <div>
-              <Typography.Text type="secondary">正文</Typography.Text>
-              <Typography.Paragraph className="!mt-2 whitespace-pre-wrap">
+              <Typography.Text
+                type="secondary"
+                styles={{
+                  root: {
+                    color: 'var(--color-font)',
+                    fontSize: '16px',
+                    fontWeight: 'bold',
+                  },
+                }}
+              >
+                正文
+              </Typography.Text>
+              <Typography.Paragraph
+                className="!mt-2 whitespace-pre-wrap"
+                styles={{
+                  root: {
+                    color: 'var(--color-font)',
+                  },
+                }}
+              >
                 {viewing.content}
               </Typography.Paragraph>
             </div>

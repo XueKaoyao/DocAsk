@@ -78,8 +78,6 @@ class LocalMiniLMEmbeddingFunction extends EmbeddingFunction {
     data: string[],
     batchSize = 8,
   ): Promise<number[][]> {
-    const t0 = performance.now();
-
     // const extractor = await getExtractor();
     // const out: number[][] = [];
     // for (const text of data) {
@@ -102,13 +100,6 @@ class LocalMiniLMEmbeddingFunction extends EmbeddingFunction {
       // tensor.dims === [slice.length, 384]
       out.push(...tensor.tolist());
     }
-
-    console.log('[embed:write]', {
-      n: data.length,
-      batchSize,
-      batches: Math.ceil(data.length / batchSize) || 0,
-      ms: +(performance.now() - t0).toFixed(1),
-    });
     return out;
   }
 

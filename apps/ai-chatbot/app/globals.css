@@ -155,11 +155,11 @@ body {
   font-weight: 600;
 }
 
-/* ========== Garbage Documents Table ========== */
-.garbage-docs-table .ant-table-cell {
+/* ========== Documents Table ========== */
+.docs-table .ant-table-cell {
   color: var(--color-font) !important;
 }
-.garbage-docs-table .ant-table-cell:hover {
+.docs-table .ant-table-cell:hover {
   background-color: var(--color-fontbg) !important;
   color: var(--color-font) !important;
 }

@@ -8,6 +8,20 @@ import {
   type LanceChunkRow,
 } from '@/app/lib/lancedb';
 import type { RetrievalTimings } from '@/app/types/RetrievalType';
+import {
+  onChunksUpserted,
+  onChunksDeletedByDocumentId,
+  onChunksTableDropped,
+} from './bm25/sync';
+import { invalidateRetrievalCache } from './redis';
+
+async function invalidateRetrievalCacheSafe(context: string): Promise<void> {
+  try {
+    await invalidateRetrievalCache();
+  } catch (err) {
+    console.error(`[redis] invalidate after ${context} failed:`, err);
+  }
+}
 
 // --- 原手动 embed（@xenova/transformers）已停用，改由 LanceDB Embedding Function 自动生成 ---
 // import { embed } from '@/app/lib/embedding';
@@ -113,6 +127,15 @@ export async function indexDocumentChunks(
   }
   await upsertChunkRows(rows);
 
+  // 切块入库后同步 BM25 语料；rebuild 时经 prepTask 分词并 consolidate
+  try {
+    await onChunksUpserted(rows);
+  } catch (err) {
+    console.error('[bm25] sync after indexDocumentChunks failed:', err);
+  }
+  // 语料变更后清空检索结果缓存，避免读到旧片段
+  await invalidateRetrievalCacheSafe('indexDocumentChunks');
+
   // --- 原方案：本地 embed 后写入 vector ---
   // const rows: LanceChunkRow[] = [];
   // for (let i = 0; i < parts.length; i++) {
@@ -211,9 +234,21 @@ export async function searchSnippets(
 /** 删除某文档在 LanceDB 中的向量 */
 export async function removeDocumentChunks(documentId: string): Promise<void> {
   await deleteChunksByDocumentId(documentId);
+  try {
+    await onChunksDeletedByDocumentId(documentId);
+  } catch (err) {
+    console.error('[bm25] sync after removeDocumentChunks failed:', err);
+  }
+  await invalidateRetrievalCacheSafe('removeDocumentChunks');
 }
 
 /** 清空 LanceDB chunks 表 */
 export async function clearAllChunks(): Promise<void> {
   await dropChunksTable();
+  try {
+    await onChunksTableDropped();
+  } catch (err) {
+    console.error('[bm25] sync after clearAllChunks failed:', err);
+  }
+  await invalidateRetrievalCacheSafe('clearAllChunks');
 }
