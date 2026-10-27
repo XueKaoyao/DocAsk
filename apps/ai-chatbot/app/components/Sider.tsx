@@ -4,7 +4,7 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import type { ConversationsProps } from '@ant-design/x';
 import { Conversations } from '@ant-design/x';
 import type { GetProp } from 'antd';
-import { Input } from 'antd';
+import { Button, Input } from 'antd';
 import { useSessionList } from '../store/useSessionList';
 // import { deleteSessionMessages } from '../store/useMessageHistory';
 import { useSystemOption } from '../store/useSystemOption';
@@ -135,6 +135,26 @@ function Sider() {
 
   return (
     <div className="w-full h-full bg-[var(--color-primary)] border-r border-[var(--color-secondary)] overflow-y-auto scrollbar-none">
+      <Button
+        styles={{
+          root: {
+            backgroundColor: 'var(--error-bg)',
+            borderColor: 'var(--error-border)',
+            color: 'var(--error-text)',
+            marginLeft: '12px',
+            marginRight: '12px',
+            marginTop: '15px',
+            width: 'calc(100% - 24px)',
+            padding: '15px 10px',
+          },
+        }}
+        icon={<DeleteOutlined />}
+        onClick={() => {
+          router.push('/garbage');
+        }}
+      >
+        回收站
+      </Button>
       <Conversations
         menu={menuConfig}
         items={items}

@@ -1,0 +1,204 @@
+{
+  "version": "1.0",
+  "description": "RAG 评测金标准：问题 + 标准答案 + 应召回文档标题（与 app/docs 内容对齐）",
+  "idField": "title",
+  "notes": [
+    "relevantTitles 与知识库 Document.title 对齐（seed 后标题通常等于文件名去扩展名或文档一级标题）",
+    "检索评测：用 hit.title / 文档标题与 relevantTitles 求交，算 Recall@K / Precision@K / Hit@K",
+    "生成评测：将模型回答与 answer 或 answerKeyPoints 对比（人工或 LLM-as-judge）",
+    "expectInKb=false 表示知识库无可靠答案，理想回复应明确「没有相关信息」"
+  ],
+  "cases": [
+    {
+      "id": "pwd-01",
+      "category": "账号密码",
+      "difficulty": "easy",
+      "query": "忘记登录密码怎么办？",
+      "relevantTitles": ["如何重置登录密码"],
+      "expectInKb": true,
+      "answer": "在登录页点击「忘记密码」，系统会向注册邮箱发送验证邮件；打开邮件中的链接后设置新密码并确认两次输入一致，然后用新密码重新登录。",
+      "answerKeyPoints": [
+        "登录页点击忘记密码",
+        "注册邮箱收验证邮件",
+        "打开链接设置新密码并确认两次",
+        "用新密码重新登录"
+      ]
+    },
+    {
+      "id": "pwd-02",
+      "category": "账号密码",
+      "difficulty": "easy",
+      "query": "重置密码后新密码有什么要求？",
+      "relevantTitles": ["如何重置登录密码"],
+      "expectInKb": true,
+      "answer": "新密码建议至少 8 位，包含字母和数字。",
+      "answerKeyPoints": ["至少 8 位", "包含字母和数字"]
+    },
+    {
+      "id": "pwd-03",
+      "category": "账号密码",
+      "difficulty": "medium",
+      "query": "收不到重置密码的验证邮件怎么处理？",
+      "relevantTitles": ["如何重置登录密码"],
+      "expectInKb": true,
+      "answer": "先检查邮箱垃圾箱；若仍没有，联系管理员重置。",
+      "answerKeyPoints": ["检查垃圾箱", "联系管理员重置"]
+    },
+    {
+      "id": "breath-01",
+      "category": "情绪调节",
+      "difficulty": "easy",
+      "query": "焦虑的时候可以做什么呼吸练习？",
+      "relevantTitles": ["焦虑时的简单呼吸练习"],
+      "expectInKb": true,
+      "answer": "可以做 4-7-8 呼吸：鼻子吸气默数 4，屏息默数 7，嘴巴缓缓呼气默数 8；重复三到四轮，肩膀放松，注意力放在呼吸上。",
+      "answerKeyPoints": ["4-7-8 呼吸", "吸气 4", "屏息 7", "呼气 8", "重复三到四轮"]
+    },
+    {
+      "id": "breath-02",
+      "category": "情绪调节",
+      "difficulty": "medium",
+      "query": "睡前思绪很乱，有没有简单的放松方法？",
+      "relevantTitles": ["焦虑时的简单呼吸练习"],
+      "expectInKb": true,
+      "answer": "可采用 4-7-8 呼吸练习，让身体有节奏地慢下来；不必追求立刻平静。若情绪持续强烈，建议寻求专业心理咨询，呼吸只是辅助手段。",
+      "answerKeyPoints": ["4-7-8", "不追求立刻平静", "持续强烈需专业咨询"]
+    },
+    {
+      "id": "weather-01",
+      "category": "出行天气",
+      "difficulty": "easy",
+      "query": "今天出门要不要带伞？",
+      "relevantTitles": ["今日天气与出行建议"],
+      "expectInKb": true,
+      "answer": "傍晚可能有小雨，建议备一把折叠伞；同时可携带轻便外套。",
+      "answerKeyPoints": ["傍晚可能小雨", "备折叠伞", "轻便外套"]
+    },
+    {
+      "id": "weather-02",
+      "category": "出行天气",
+      "difficulty": "easy",
+      "query": "今天气温大概多少度？",
+      "relevantTitles": ["今日天气与出行建议"],
+      "expectInKb": true,
+      "answer": "白天多云转阴，气温大约在 18℃ 到 24℃ 之间。",
+      "answerKeyPoints": ["多云转阴", "18℃", "24℃"]
+    },
+    {
+      "id": "weather-03",
+      "category": "出行天气",
+      "difficulty": "medium",
+      "query": "适合什么时候做户外运动？路面开车要注意什么？",
+      "relevantTitles": ["今日天气与出行建议"],
+      "expectInKb": true,
+      "answer": "空气质量良好；户外运动上午相对干燥更适宜。路面可能湿滑，驾车请注意减速。",
+      "answerKeyPoints": ["上午更适宜户外运动", "路面可能湿滑", "驾车减速"]
+    },
+    {
+      "id": "pasta-01",
+      "category": "烹饪",
+      "difficulty": "easy",
+      "query": "番茄肉酱意面需要哪些食材？",
+      "relevantTitles": ["番茄肉酱意面简易做法"],
+      "expectInKb": true,
+      "answer": "意大利面 200 克、番茄酱、洋葱、蒜末和少许牛肉末；可再备黑胡椒和帕玛森干酪。",
+      "answerKeyPoints": ["意大利面 200 克", "番茄酱", "洋葱", "蒜末", "牛肉末"]
+    },
+    {
+      "id": "pasta-02",
+      "category": "烹饪",
+      "difficulty": "easy",
+      "query": "番茄肉酱意面大概多久能做完？",
+      "relevantTitles": ["番茄肉酱意面简易做法"],
+      "expectInKb": true,
+      "answer": "整份大约 20 分钟，适合工作日晚餐。",
+      "answerKeyPoints": ["大约 20 分钟"]
+    },
+    {
+      "id": "pasta-03",
+      "category": "烹饪",
+      "difficulty": "medium",
+      "query": "怎么炒番茄肉酱再拌面？",
+      "relevantTitles": ["番茄肉酱意面简易做法"],
+      "expectInKb": true,
+      "answer": "面条煮至 al dente；同时用油炒香蒜与洋葱，加入肉末炒散，倒入番茄酱小火熬浓；沥干面条后与酱汁拌匀，可撒黑胡椒和帕玛森干酪。",
+      "answerKeyPoints": ["面条煮至 al dente", "炒蒜与洋葱", "肉末炒散", "番茄酱小火熬浓", "拌匀可撒干酪"]
+    },
+    {
+      "id": "next-01",
+      "category": "工程排查",
+      "difficulty": "easy",
+      "query": "Next.js 接口返回 500 应该先看什么？",
+      "relevantTitles": ["Next.js 接口报错排查步骤"],
+      "expectInKb": true,
+      "answer": "先打开终端查看服务端完整堆栈，确认是否有未捕获异常。",
+      "answerKeyPoints": ["查看服务端完整堆栈"]
+    },
+    {
+      "id": "next-02",
+      "category": "工程排查",
+      "difficulty": "medium",
+      "query": "页面出现 fetch failed 怎么排查？",
+      "relevantTitles": ["Next.js 接口报错排查步骤"],
+      "expectInKb": true,
+      "answer": "查看服务端堆栈；确认环境变量（如 API Key、数据库连接串）是否加载；检查 Route Handler 是否抛出未捕获异常。开发模式可在 next.config 打开 logging.fetches.fullUrl 核对请求路径，改完后重启 next dev 再复现验证。",
+      "answerKeyPoints": [
+        "看服务端堆栈",
+        "检查环境变量",
+        "检查 Route Handler",
+        "logging.fetches.fullUrl",
+        "重启 next dev 验证"
+      ]
+    },
+    {
+      "id": "para-01",
+      "category": "改写鲁棒性",
+      "difficulty": "hard",
+      "query": "老是记不住账号密码，系统能不能帮我改一个新的？",
+      "relevantTitles": ["如何重置登录密码"],
+      "expectInKb": true,
+      "answer": "可通过登录页「忘记密码」走邮箱验证重置流程：收信、点链接、设置至少 8 位且含字母数字的新密码并确认，再重新登录。",
+      "answerKeyPoints": ["忘记密码", "邮箱验证", "新密码规则", "重新登录"]
+    },
+    {
+      "id": "para-02",
+      "category": "改写鲁棒性",
+      "difficulty": "hard",
+      "query": "紧张得睡不着，有没有按数呼吸的方法？",
+      "relevantTitles": ["焦虑时的简单呼吸练习"],
+      "expectInKb": true,
+      "answer": "使用 4-7-8 呼吸：吸 4、屏 7、呼 8，重复数轮并放松肩膀；若情绪持续强烈应寻求专业帮助。",
+      "answerKeyPoints": ["4-7-8", "吸4屏7呼8", "专业咨询"]
+    },
+    {
+      "id": "neg-01",
+      "category": "负例",
+      "difficulty": "easy",
+      "query": "公司今年的营收财报是多少？",
+      "relevantTitles": [],
+      "expectInKb": false,
+      "answer": "知识库中没有相关信息，无法提供公司营收财报数据。",
+      "answerKeyPoints": ["知识库无相关信息"]
+    },
+    {
+      "id": "neg-02",
+      "category": "负例",
+      "difficulty": "easy",
+      "query": "帮我订明天去上海的高铁票",
+      "relevantTitles": [],
+      "expectInKb": false,
+      "answer": "知识库中没有订票或出行票务相关信息，无法完成订票。",
+      "answerKeyPoints": ["知识库无相关信息"]
+    },
+    {
+      "id": "neg-03",
+      "category": "负例",
+      "difficulty": "medium",
+      "query": "量子纠缠在通信加密里怎么落地？",
+      "relevantTitles": [],
+      "expectInKb": false,
+      "answer": "知识库中没有量子纠缠或量子通信相关文档，应明确告知没有相关信息，不要编造。",
+      "answerKeyPoints": ["知识库无相关信息", "不编造"]
+    }
+  ]
+}

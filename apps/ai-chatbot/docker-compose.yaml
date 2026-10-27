@@ -19,5 +19,27 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  redis:
+    image: redis:7
+
+    container_name: ai-chatbot-redis
+
+    restart: unless-stopped
+
+    ports:
+      - '6379:6379'
+
+    # 内存上限 + allkeys-lru：进程级兜底（应用层另有按条数的 LRU ZSET）
+    command: >
+      redis-server
+      --maxmemory 64mb
+      --maxmemory-policy allkeys-lru
+
+    volumes:
+      - redis_data:/data
+    # 可选：需要密码时取消注释
+    # command: redis-server --requirepass 你的密码
+
 volumes:
   postgres_data:
+  redis_data:

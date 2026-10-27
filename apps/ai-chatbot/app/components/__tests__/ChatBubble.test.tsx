@@ -44,6 +44,27 @@ jest.mock('@ant-design/x', () => ({
       </div>
     ),
   },
+  Think: ({
+    title,
+    children,
+    loading,
+    ...rest
+  }: {
+    title?: React.ReactNode;
+    children?: React.ReactNode;
+    loading?: boolean | React.ReactNode;
+    'data-testid'?: string;
+    'data-tool-call-id'?: string;
+  }) => (
+    <div
+      data-testid={rest['data-testid']}
+      data-tool-call-id={rest['data-tool-call-id']}
+      data-loading={loading ? 'true' : 'false'}
+    >
+      <div data-testid="think-title">{title}</div>
+      {children ? <div data-testid="think-content">{children}</div> : null}
+    </div>
+  ),
   // Actions component renders a list of action items (Copy, Regenerate, etc.)
   Actions: Object.assign(
     ({
@@ -92,6 +113,9 @@ jest.mock('antd', () => ({
 jest.mock('@ant-design/icons', () => ({
   OpenAIOutlined: () => <span>AI</span>,
   UserOutlined: () => <span>User</span>,
+  SearchOutlined: () => <span>Search</span>,
+  CheckCircleOutlined: () => <span>Check</span>,
+  CloseCircleOutlined: () => <span>Close</span>,
   ReloadOutlined: ({
     onClick,
     style,
@@ -380,9 +404,246 @@ describe('ChatBubble', () => {
         />,
       );
       expect(screen.getByTestId('retrieval-call')).toHaveTextContent(
-        '已检索知识库（2 条）：RAG 简介、向量检索',
+        '已检索知识库（2 条）',
+      );
+      expect(screen.getByTestId('retrieval-call')).toHaveTextContent(
+        'RAG 简介',
+      );
+      expect(screen.getByTestId('retrieval-call')).toHaveTextContent(
+        '向量检索',
       );
       expect(screen.getByTestId('x-markdown')).toHaveTextContent('根据知识库…');
+    });
+
+    it('renders data-retrieval progress: start then hits then done', () => {
+      const messages = [
+        {
+          id: '1',
+          role: 'assistant' as const,
+          parts: [
+            {
+              type: 'data-retrieval' as const,
+              id: 'call-p',
+              data: {
+                type: 'start',
+                toolCallId: 'call-p',
+                question: '老忘带钥匙',
+              },
+            },
+            {
+              type: 'data-retrieval' as const,
+              id: 'call-p-0',
+              data: {
+                type: 'hit',
+                toolCallId: 'call-p',
+                index: 0,
+                hit: {
+                  title: '番茄肉酱意面',
+                  filename: 'a.md',
+                  page: 0,
+                  snippet: 's1',
+                  score: 0.9,
+                },
+              },
+            },
+            {
+              type: 'data-retrieval' as const,
+              id: 'call-p-1',
+              data: {
+                type: 'hit',
+                toolCallId: 'call-p',
+                index: 1,
+                hit: {
+                  title: '今日天气',
+                  filename: 'b.csv',
+                  page: 0,
+                  snippet: 's2',
+                  score: 0.8,
+                },
+              },
+            },
+            {
+              type: 'tool-getInformation' as const,
+              toolCallId: 'call-p',
+              state: 'input-available' as const,
+              input: { question: '老忘带钥匙' },
+            },
+            { type: 'text' as const, text: '' },
+          ],
+          createdAt: new Date(),
+        } as import('ai').UIMessage,
+      ];
+      render(
+        <ChatBubble
+          messages={messages}
+          status={ChatStatus.Streaming}
+          regenerate={mockRegenerate}
+        />,
+      );
+
+      const progress = screen.getByTestId('retrieval-progress');
+      expect(progress).toHaveAttribute('data-loading', 'true');
+      expect(progress).toHaveTextContent('正在检索知识库…');
+      expect(progress).toHaveTextContent('查询：老忘带钥匙');
+      // 检索中随 hit 帧逐条展示
+      expect(progress).toHaveTextContent('番茄肉酱意面');
+      expect(progress).toHaveTextContent('今日天气');
+      expect(screen.queryByTestId('retrieval-call')).not.toBeInTheDocument();
+    });
+
+    it('prefers data-retrieval done over tool summary (no duplicate)', () => {
+      const messages = [
+        {
+          id: '1',
+          role: 'assistant' as const,
+          parts: [
+            {
+              type: 'data-retrieval' as const,
+              id: 'call-d',
+              data: {
+                type: 'done',
+                toolCallId: 'call-d',
+                count: 2,
+                titles: ['A', 'B'],
+              },
+            },
+            {
+              type: 'tool-getInformation' as const,
+              toolCallId: 'call-d',
+              state: 'output-available' as const,
+              input: { question: 'q' },
+              output: {
+                count: 2,
+                titles: ['A', 'B'],
+                results: [],
+              },
+            },
+            { type: 'text' as const, text: '回答正文' },
+          ],
+          createdAt: new Date(),
+        } as import('ai').UIMessage,
+      ];
+      render(
+        <ChatBubble
+          messages={messages}
+          status={ChatStatus.Ready}
+          regenerate={mockRegenerate}
+        />,
+      );
+
+      const progress = screen.getByTestId('retrieval-progress');
+      expect(progress).toHaveAttribute('data-loading', 'false');
+      expect(progress).toHaveTextContent('检索完成（2）');
+      expect(progress).toHaveTextContent('A');
+      expect(progress).toHaveTextContent('B');
+      expect(screen.queryByTestId('retrieval-call')).not.toBeInTheDocument();
+      expect(screen.getByTestId('x-markdown')).toHaveTextContent('回答正文');
+    });
+
+    it('keeps done status when hit parts appear after done (reconcile order)', () => {
+      const messages = [
+        {
+          id: '1',
+          role: 'assistant' as const,
+          parts: [
+            // start/done 同 id：最终只剩 done，且可能排在 hit 前面
+            {
+              type: 'data-retrieval' as const,
+              id: 'call-r',
+              data: {
+                type: 'done',
+                toolCallId: 'call-r',
+                count: 1,
+                titles: ['文档A'],
+              },
+            },
+            {
+              type: 'data-retrieval' as const,
+              id: 'call-r-0',
+              data: {
+                type: 'hit',
+                toolCallId: 'call-r',
+                index: 0,
+                hit: {
+                  title: '文档A',
+                  filename: 'a.md',
+                  page: 0,
+                  snippet: 's',
+                  score: 0.9,
+                },
+              },
+            },
+            {
+              type: 'tool-getInformation' as const,
+              toolCallId: 'call-r',
+              state: 'output-available' as const,
+              input: { question: 'q' },
+              output: {
+                count: 1,
+                titles: ['文档A'],
+                results: [],
+              },
+            },
+          ],
+          createdAt: new Date(),
+        } as import('ai').UIMessage,
+      ];
+      render(
+        <ChatBubble
+          messages={messages}
+          status={ChatStatus.Ready}
+          regenerate={mockRegenerate}
+        />,
+      );
+
+      const progress = screen.getByTestId('retrieval-progress');
+      expect(progress).toHaveAttribute('data-loading', 'false');
+      expect(progress).toHaveTextContent('检索完成（1）');
+      expect(progress).not.toHaveTextContent('正在检索知识库…');
+    });
+
+    it('renders separate progress blocks for parallel tool calls', () => {
+      const messages = [
+        {
+          id: '1',
+          role: 'assistant' as const,
+          parts: [
+            {
+              type: 'data-retrieval' as const,
+              id: 'c1',
+              data: {
+                type: 'start',
+                toolCallId: 'c1',
+                question: '问题一',
+              },
+            },
+            {
+              type: 'data-retrieval' as const,
+              id: 'c2',
+              data: {
+                type: 'start',
+                toolCallId: 'c2',
+                question: '问题二',
+              },
+            },
+          ],
+          createdAt: new Date(),
+        } as import('ai').UIMessage,
+      ];
+      render(
+        <ChatBubble
+          messages={messages}
+          status={ChatStatus.Streaming}
+          regenerate={mockRegenerate}
+        />,
+      );
+
+      const blocks = screen.getAllByTestId('retrieval-progress');
+      expect(blocks).toHaveLength(2);
+      expect(blocks[0]).toHaveAttribute('data-tool-call-id', 'c1');
+      expect(blocks[1]).toHaveAttribute('data-tool-call-id', 'c2');
+      expect(blocks[0]).toHaveTextContent('查询：问题一');
+      expect(blocks[1]).toHaveTextContent('查询：问题二');
     });
   });
 });

@@ -19,6 +19,23 @@ jest.mock('../../store/useThemeStore', () => ({
   },
 }));
 
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({ push: jest.fn() }),
+}));
+
+jest.mock('../../store/useUserStore', () => ({
+  useUserStore: (selector?: (state: { user: null }) => unknown) => {
+    const state = { user: null };
+    if (selector) return selector(state);
+    return state;
+  },
+}));
+
+jest.mock('@myworkspace/fetch', () => ({
+  apiFetch: jest.fn(),
+  FetchError: class FetchError extends Error {},
+}));
+
 describe('Header', () => {
   const mockOnImport = jest.fn();
   const mockOnExport = jest.fn();
@@ -46,9 +63,13 @@ describe('Header', () => {
       expect(screen.getByText('导出会话')).toBeInTheDocument();
     });
 
+    it('renders upload PDF button', () => {
+      render(<Header onImport={mockOnImport} onExport={mockOnExport} />);
+      expect(screen.getByText('上传PDF')).toBeInTheDocument();
+    });
+
     it('renders theme toggle switch', () => {
       render(<Header onImport={mockOnImport} onExport={mockOnExport} />);
-      // Ant Design Switch renders a button with role="switch"
       const switchElement = screen.getByRole('switch');
       expect(switchElement).toBeInTheDocument();
     });

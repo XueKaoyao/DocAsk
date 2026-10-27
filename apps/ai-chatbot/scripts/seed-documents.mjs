@@ -52,7 +52,8 @@ async function loadDocument(inputPath) {
     try {
       const raw = await readFile(filePath, 'utf8');
       const { title, content } = parseMarkdown(filePath, raw);
-      return { title, content, source: inputPath, resolved: filePath };
+      const filename = path.basename(filePath);
+      return { title, content, filename, source: inputPath, resolved: filePath };
     } catch (error) {
       lastError = error;
     }
@@ -83,11 +84,16 @@ async function main() {
 
   const body =
     documents.length === 1
-      ? { title: documents[0].title, content: documents[0].content }
+      ? {
+          title: documents[0].title,
+          content: documents[0].content,
+          filename: documents[0].filename,
+        }
       : {
-          documents: documents.map(({ title, content }) => ({
+          documents: documents.map(({ title, content, filename }) => ({
             title,
             content,
+            filename,
           })),
         };
 

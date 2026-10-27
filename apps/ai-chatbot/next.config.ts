@@ -45,6 +45,12 @@ const nextConfig: NextConfig = {
   //  生产构建优化
   // =====================================================================
 
+  /**
+   * 输出独立可运行目录（.next/standalone），供 Docker 瘦镜像使用。
+   * 包含最小 node_modules 与 server.js，无需在 runner 阶段再 pnpm install。
+   */
+  output: 'standalone',
+
   experimental: {
     /**
      * 包导入优化（Tree Shaking）。
@@ -145,6 +151,9 @@ const nextConfig: NextConfig = {
     '@xenova/transformers',
     '@lancedb/lancedb',
     'apache-arrow',
+    // pdf-parse / pdfjs：避免被打进 bundle 后找不到 pdf.worker.mjs
+    'pdf-parse',
+    'pdfjs-dist',
   ],
 };
 
